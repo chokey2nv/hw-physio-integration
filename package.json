@@ -1,6 +1,6 @@
 {
-    "name": "@chijioke/hw-physio-integration",
-    "version": "0.0.106",
+    "name": "@hw-physio/integration",
+    "version": "0.0.1",
     "description": "Henry Willians Physio Integration SDK",
     "keywords": [
         "graphql",
