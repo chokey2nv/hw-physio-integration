@@ -39,6 +39,7 @@ declare const userIntegration: {
         nestedFields: Record<"user", UserFields>;
     };
 };
+type GetUserResponseNestedFields = typeof userIntegration.get.nestedFields;
 declare const userListIntegration: {
     responseFields: readonly ["users", "total"];
     nestedFields: Record<"users", UserFields>;
@@ -46,6 +47,7 @@ declare const userListIntegration: {
 declare const userDeleteIntegration: {
     responseFields: ["userId"];
 };
+type ListUserResponseNestedFields = typeof userListIntegration.nestedFields;
 
 declare const ENTITY: "blog";
 type BlogCRUD = EntityCRUD<Blog, typeof ENTITY>;
@@ -89,7 +91,7 @@ declare const createUserService: (client: GraphQLClient) => {
         nestedFields?: Record<"user", UserFields> | undefined;
     } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<User, "user"> | undefined>;
     listUser: (input: _chijioke_graphql_client.ListEntityRequest<User, "user">, fetchFields?: {
-        root?: ("total" | "users")[] | undefined;
+        root?: ("users" | "total")[] | undefined;
         nestedFields?: Record<"users", UserFields> | undefined;
     } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.ListEntityResponse<User, "user"> | undefined>;
 };
@@ -117,4 +119,4 @@ declare const createBlogService: (client: GraphQLClient) => {
     } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.ListEntityResponse<Blog, "blog"> | undefined>;
 };
 
-export { BLOG_FIELDS, type BlogCRUD, type BlogFields, USER_FIELDS, type UserCRUD, type UserFields, blogDeleteIntegration, blogIntegration, blogListIntegration, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };
+export { BLOG_FIELDS, type BlogCRUD, type BlogFields, type GetUserResponseNestedFields, type ListUserResponseNestedFields, USER_FIELDS, type UserCRUD, type UserFields, blogDeleteIntegration, blogIntegration, blogListIntegration, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };
