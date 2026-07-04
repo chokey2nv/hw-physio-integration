@@ -10,6 +10,7 @@ export const userIntegration = createStandardEntityIntegration({
     key: ENTITY,
     fields: USER_FIELDS
 });
+export type GetUserResponseNestedFields =  typeof userIntegration.get.nestedFields
 
 export const userListIntegration = createListIntegration({
     key: ENTITY,
@@ -17,3 +18,4 @@ export const userListIntegration = createListIntegration({
 })
 
 export const userDeleteIntegration = createDeleteIntegration(ENTITY);
+export type ListUserResponseNestedFields =  typeof userListIntegration.nestedFields

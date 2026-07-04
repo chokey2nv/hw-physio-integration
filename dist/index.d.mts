@@ -1,0 +1,120 @@
+import * as _chijioke_graphql_client from '@chijioke/graphql-client';
+import { EntityCRUD, GraphQLClient } from '@chijioke/graphql-client';
+export { GraphQLClient } from '@chijioke/graphql-client';
+
+interface User {
+    id: string;
+    lastName: string;
+    firstName: string;
+    phone: string;
+    email: string;
+    createdAt: string;
+}
+interface Blog {
+    id: string;
+    title: string;
+    htmlContent: string;
+    imageUrl: string;
+    createdAt: string;
+}
+
+type BlogFields = (keyof Blog)[];
+declare const BLOG_FIELDS: BlogFields;
+type UserFields = (keyof User)[];
+declare const USER_FIELDS: UserFields;
+
+declare const ENTITY$1: "user";
+type UserCRUD = EntityCRUD<User, typeof ENTITY$1>;
+declare const userIntegration: {
+    get: {
+        responseFields: ["user"];
+        nestedFields: Record<"user", UserFields>;
+    };
+    create: {
+        responseFields: ["user"];
+        nestedFields: Record<"user", UserFields>;
+    };
+    update: {
+        responseFields: ["user"];
+        nestedFields: Record<"user", UserFields>;
+    };
+};
+declare const userListIntegration: {
+    responseFields: readonly ["users", "total"];
+    nestedFields: Record<"users", UserFields>;
+};
+declare const userDeleteIntegration: {
+    responseFields: ["userId"];
+};
+
+declare const ENTITY: "blog";
+type BlogCRUD = EntityCRUD<Blog, typeof ENTITY>;
+declare const blogIntegration: {
+    get: {
+        responseFields: ["blog"];
+        nestedFields: Record<"blog", UserFields>;
+    };
+    create: {
+        responseFields: ["blog"];
+        nestedFields: Record<"blog", UserFields>;
+    };
+    update: {
+        responseFields: ["blog"];
+        nestedFields: Record<"blog", UserFields>;
+    };
+};
+declare const blogListIntegration: {
+    responseFields: readonly ["blogs", "total"];
+    nestedFields: Record<"blogs", UserFields>;
+};
+declare const blogDeleteIntegration: {
+    responseFields: ["blogId"];
+};
+
+declare const createUserService: (client: GraphQLClient) => {
+    createUser: (input: _chijioke_graphql_client.CreateEntityRequest<User, "user">, fetchFields?: {
+        root?: "user"[] | undefined;
+        nestedFields?: Record<"user", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<User, "user"> | undefined>;
+    updateUser: (input: _chijioke_graphql_client.UpdateEntityRequest<User, "user">, fetchFields?: {
+        root?: "user"[] | undefined;
+        nestedFields?: Record<"user", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<User, "user"> | undefined>;
+    deleteUser: (input: _chijioke_graphql_client.DeleteEntityRequest<"user">, fetchFields?: {
+        root?: "userId"[] | undefined;
+        nestedFields?: {} | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.DeleteEntityResponse<"user"> | undefined>;
+    getUser: (input: _chijioke_graphql_client.GetEntityRequest<User, "user">, fetchFields?: {
+        root?: "user"[] | undefined;
+        nestedFields?: Record<"user", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<User, "user"> | undefined>;
+    listUser: (input: _chijioke_graphql_client.ListEntityRequest<User, "user">, fetchFields?: {
+        root?: ("total" | "users")[] | undefined;
+        nestedFields?: Record<"users", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.ListEntityResponse<User, "user"> | undefined>;
+};
+
+declare const createBlogService: (client: GraphQLClient) => {
+    createBlog: (input: _chijioke_graphql_client.CreateEntityRequest<Blog, "blog">, fetchFields?: {
+        root?: "blog"[] | undefined;
+        nestedFields?: Record<"blog", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<Blog, "blog"> | undefined>;
+    updateBlog: (input: _chijioke_graphql_client.UpdateEntityRequest<Blog, "blog">, fetchFields?: {
+        root?: "blog"[] | undefined;
+        nestedFields?: Record<"blog", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<Blog, "blog"> | undefined>;
+    deleteBlog: (input: _chijioke_graphql_client.DeleteEntityRequest<"blog">, fetchFields?: {
+        root?: "blogId"[] | undefined;
+        nestedFields?: {} | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.DeleteEntityResponse<"blog"> | undefined>;
+    getBlog: (input: _chijioke_graphql_client.GetEntityRequest<Blog, "blog">, fetchFields?: {
+        root?: "blog"[] | undefined;
+        nestedFields?: Record<"blog", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.EntityResponse<Blog, "blog"> | undefined>;
+    listBlog: (input: _chijioke_graphql_client.ListEntityRequest<Blog, "blog">, fetchFields?: {
+        root?: ("total" | "blogs")[] | undefined;
+        nestedFields?: Record<"blogs", UserFields> | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.ListEntityResponse<Blog, "blog"> | undefined>;
+};
+
+export { BLOG_FIELDS, type BlogCRUD, type BlogFields, USER_FIELDS, type UserCRUD, type UserFields, blogDeleteIntegration, blogIntegration, blogListIntegration, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };

@@ -1,3 +1,4 @@
+export type UserType = "admin" | "client" | "physio";
 export interface User {
   id: string;
   lastName: string;
@@ -12,4 +13,10 @@ export interface Blog {
   htmlContent: string;
   imageUrl: string;
   createdAt: string;
+}
+export interface ContactUsData {
+    fullName: string;
+    email: string;
+    phone: string;
+    message: string;
 }
