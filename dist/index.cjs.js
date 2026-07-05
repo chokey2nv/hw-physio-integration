@@ -198,6 +198,86 @@ var createBlogService = (client) => ({
   )
 });
 
+// src/services/user/user.entity.ts
+var userQuery = [
+  "id",
+  "createdAt",
+  "email",
+  "firstName",
+  "lastName",
+  "phone"
+];
+
+// src/services/user/types/auth.type.ts
+var contactUsResponse = [
+  "success"
+];
+var meResponse = [
+  "user",
+  "userType"
+];
+var meResponseNestedFields = {
+  user: userQuery
+};
+var loginResponse = [
+  "accessToken",
+  "userId"
+];
+
+// src/services/user/schemas/auth.schema.ts
+var authSchema = {
+  me: {
+    operation: "query",
+    name: "me",
+    variables: "",
+    field: ""
+  },
+  login: {
+    operation: "mutation",
+    name: "login",
+    variables: "($phone: String, $email: String, $pin: String, $userType: UserTypeEnum, $password: String)",
+    field: "(phone: $phone, email: $email, pin: $pin, userType: $userType, password: $password)"
+  },
+  contactUs: {
+    operation: "mutation",
+    name: "contactUs",
+    variables: "($contactMessage: ContactMessageInput!)",
+    field: "(contactMessage: $contactMessage)"
+  }
+};
+
+// src/services/user/auth.service.ts
+var createAuthService = (client) => ({
+  // contact us 
+  contactUs: graphqlClient.createOperationExecutor(
+    client,
+    "contactUs",
+    {
+      schema: graphqlClient.buildSchema(authSchema.contactUs),
+      defaultRootFields: contactUsResponse,
+      defaultNestedFields: {}
+    }
+  ),
+  login: graphqlClient.createOperationExecutor(
+    client,
+    "login",
+    {
+      schema: graphqlClient.buildSchema(authSchema.login),
+      defaultRootFields: loginResponse,
+      defaultNestedFields: {}
+    }
+  ),
+  me: graphqlClient.createOperationExecutor(
+    client,
+    "me",
+    {
+      schema: graphqlClient.buildSchema(authSchema.me),
+      defaultRootFields: [...meResponse],
+      defaultNestedFields: meResponseNestedFields
+    }
+  )
+});
+
 Object.defineProperty(exports, "GraphQLClient", {
   enumerable: true,
   get: function () { return graphqlClient.GraphQLClient; }
@@ -207,6 +287,7 @@ exports.USER_FIELDS = USER_FIELDS;
 exports.blogDeleteIntegration = blogDeleteIntegration;
 exports.blogIntegration = blogIntegration;
 exports.blogListIntegration = blogListIntegration;
+exports.createAuthService = createAuthService;
 exports.createBlogService = createBlogService;
 exports.createUserService = createUserService;
 exports.userDeleteIntegration = userDeleteIntegration;

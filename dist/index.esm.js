@@ -197,6 +197,86 @@ var createBlogService = (client) => ({
   )
 });
 
-export { BLOG_FIELDS, USER_FIELDS, blogDeleteIntegration, blogIntegration, blogListIntegration, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };
+// src/services/user/user.entity.ts
+var userQuery = [
+  "id",
+  "createdAt",
+  "email",
+  "firstName",
+  "lastName",
+  "phone"
+];
+
+// src/services/user/types/auth.type.ts
+var contactUsResponse = [
+  "success"
+];
+var meResponse = [
+  "user",
+  "userType"
+];
+var meResponseNestedFields = {
+  user: userQuery
+};
+var loginResponse = [
+  "accessToken",
+  "userId"
+];
+
+// src/services/user/schemas/auth.schema.ts
+var authSchema = {
+  me: {
+    operation: "query",
+    name: "me",
+    variables: "",
+    field: ""
+  },
+  login: {
+    operation: "mutation",
+    name: "login",
+    variables: "($phone: String, $email: String, $pin: String, $userType: UserTypeEnum, $password: String)",
+    field: "(phone: $phone, email: $email, pin: $pin, userType: $userType, password: $password)"
+  },
+  contactUs: {
+    operation: "mutation",
+    name: "contactUs",
+    variables: "($contactMessage: ContactMessageInput!)",
+    field: "(contactMessage: $contactMessage)"
+  }
+};
+
+// src/services/user/auth.service.ts
+var createAuthService = (client) => ({
+  // contact us 
+  contactUs: createOperationExecutor(
+    client,
+    "contactUs",
+    {
+      schema: buildSchema(authSchema.contactUs),
+      defaultRootFields: contactUsResponse,
+      defaultNestedFields: {}
+    }
+  ),
+  login: createOperationExecutor(
+    client,
+    "login",
+    {
+      schema: buildSchema(authSchema.login),
+      defaultRootFields: loginResponse,
+      defaultNestedFields: {}
+    }
+  ),
+  me: createOperationExecutor(
+    client,
+    "me",
+    {
+      schema: buildSchema(authSchema.me),
+      defaultRootFields: [...meResponse],
+      defaultNestedFields: meResponseNestedFields
+    }
+  )
+});
+
+export { BLOG_FIELDS, USER_FIELDS, blogDeleteIntegration, blogIntegration, blogListIntegration, createAuthService, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };
 //# sourceMappingURL=index.esm.js.map
 //# sourceMappingURL=index.esm.js.map

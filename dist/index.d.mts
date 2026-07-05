@@ -2,6 +2,7 @@ import * as _chijioke_graphql_client from '@chijioke/graphql-client';
 import { EntityCRUD, GraphQLClient } from '@chijioke/graphql-client';
 export { GraphQLClient } from '@chijioke/graphql-client';
 
+type UserType = "admin" | "client" | "physio";
 interface User {
     id: string;
     lastName: string;
@@ -16,6 +17,12 @@ interface Blog {
     htmlContent: string;
     imageUrl: string;
     createdAt: string;
+}
+interface ContactUsData {
+    fullName: string;
+    email: string;
+    phone: string;
+    message: string;
 }
 
 type BlogFields = (keyof Blog)[];
@@ -119,4 +126,43 @@ declare const createBlogService: (client: GraphQLClient) => {
     } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<_chijioke_graphql_client.ListEntityResponse<Blog, "blog"> | undefined>;
 };
 
-export { BLOG_FIELDS, type BlogCRUD, type BlogFields, type GetUserResponseNestedFields, type ListUserResponseNestedFields, USER_FIELDS, type UserCRUD, type UserFields, blogDeleteIntegration, blogIntegration, blogListIntegration, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };
+interface ContactUsRequest {
+    contactMessage: Partial<ContactUsData>;
+}
+interface ContactUsResponse {
+    success: boolean;
+}
+type MeResponse = UserCRUD["GetResponse"] & {
+    userType: UserType;
+};
+interface MeResponseNestedFields extends GetUserResponseNestedFields {
+}
+interface LoginRequest {
+    pin?: string;
+    phone?: string;
+    email?: string;
+    userType: UserType;
+    password?: string;
+}
+interface LoginResponse {
+    accessToken: string;
+    userId: string;
+}
+
+declare const createAuthService: (client: GraphQLClient) => {
+    contactUs: (input: ContactUsRequest, fetchFields?: {
+        root?: "success"[] | undefined;
+        nestedFields?: {} | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<ContactUsResponse | undefined>;
+    login: (input: LoginRequest, fetchFields?: {
+        root?: (keyof LoginResponse)[] | undefined;
+        nestedFields?: {} | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<LoginResponse | undefined>;
+    me: (input: {}, fetchFields?: {
+        root?: ("user" | "userType")[] | undefined;
+        nestedFields?: MeResponseNestedFields | undefined;
+    } | undefined, option?: _chijioke_graphql_client.RequestOption) => Promise<MeResponse | undefined>;
+};
+type AuthService = ReturnType<typeof createAuthService>;
+
+export { type AuthService, BLOG_FIELDS, type BlogCRUD, type BlogFields, type GetUserResponseNestedFields, type ListUserResponseNestedFields, USER_FIELDS, type UserCRUD, type UserFields, blogDeleteIntegration, blogIntegration, blogListIntegration, createAuthService, createBlogService, createUserService, userDeleteIntegration, userIntegration, userListIntegration };
